@@ -38,6 +38,7 @@ void preencheLista(Lista *l,char arquivo[80],bool novo){
         l->cauda->prox=(Bloco*)malloc(sizeof(Bloco));
         l->cauda=l->cauda->prox;
         strcpy(aux.value,nome);
+        aux.removido=false;
         l->cauda->dado=aux;
         l->cauda->prox=NULL;
         fscanf(f,"%s ",nome);
@@ -56,21 +57,33 @@ void preencheArquivo(FILE* arq){
     } while (nome[0]!='0');
     fputs("-----------", arq);
 }
-void insertLista(Lista *l){
+bool insertLista(Lista *l){
+    Bloco *aux;
     Item item;
     char nome[100];
     fgets(nome, 100, stdin);
-    printf("Qual nome deseja inserir no final? \n");
+    printf("Qual nome deseja inserir? \n");
 	fgets(nome,100,stdin);
     nome[strlen(nome)-1]='\0';
     strcpy(item.value,nome);
+    item.removido=false;
+    while (aux->prox!=NULL)
+    {
+        if (aux->prox->dado.removido==true){
+            aux->prox->dado=item;
+            return 1;
+        }
+        else
+            aux=aux->prox;
+    }
     l->cauda->prox=(Bloco*)malloc(sizeof(Bloco));
     l->cauda=l->cauda->prox;
     l->cauda->dado=item;
     l->cauda->prox=NULL;
+    return 1;
 }
 void removeListaItem(Lista *l){
-    Bloco* aux, *freeBloco;
+    Bloco* aux;
     char nome[100];
     aux=l->cabeca;
     fgets(nome, 100, stdin);
@@ -78,50 +91,38 @@ void removeListaItem(Lista *l){
 	fgets(nome,100,stdin);
     nome[strlen(nome)-1]='\0';
     while (aux->prox!=NULL){
-        if (strcmp(aux->prox->dado.value,nome)==0){
-            if (aux->prox==l->cauda){
-                free(aux->prox);
-                aux->prox=NULL;
-                l->cauda=aux;
-            }
-            else{
-                freeBloco=aux->prox;
-                aux->prox=aux->prox->prox;
-                free(freeBloco);
-            }
-        }
-        else{
-            aux=aux->prox;
-        }
+        if (strcmp(aux->prox->dado.value,nome)==0)
+           aux->prox->dado.removido=true;
+        aux=aux->prox;
     }
 }
 void removeRepet(Lista *l){
-    Bloco *percorre, *remove, *freeBloco;
+    Bloco *percorre, *remove;
     percorre=l->cabeca;
     while (percorre->prox!=NULL){
         remove=percorre->prox;
         while (remove->prox!=NULL)
         {
-            if (strcmp(remove->prox->dado.value,percorre->prox->dado.value)==0){
-                if (remove->prox==l->cauda){
-                    free(remove->prox);
-                    remove->prox=NULL;
-                    l->cauda=remove;
-                }
-                else{
-                    freeBloco=remove->prox;
-                    remove->prox=remove->prox->prox;
-                    free(freeBloco);
-                }
-            }
-            else
-                remove=remove->prox;
+            if (strcmp(remove->prox->dado.value,percorre->prox->dado.value)==0)
+                remove->prox->dado.removido=true;
+            remove=remove->prox;
         }
         percorre=percorre->prox;
     }
 }
 
 void printLista(Lista *l){
+    Bloco* aux;
+    aux=l->cabeca;
+    while (aux->prox!=NULL)
+    {
+        if (aux->prox->dado.removido==false)
+            printf("%s, ",aux->prox->dado.value);
+        aux=aux->prox;
+    }
+    printf("\n");
+}
+void printListaV(Lista *l){
     Bloco* aux;
     aux=l->cabeca;
     while (aux->prox!=NULL)

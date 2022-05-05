@@ -12,6 +12,7 @@
 typedef struct Bloco Bloco;
 typedef struct Item{
     char value[100];
+    bool removido;
 }Item;
 
 struct Bloco{
@@ -28,10 +29,11 @@ int lenLista;
 
 void FLVazia(Lista *l);
 void preencheLista(Lista *l,char f[80], bool novo);
-void insertLista(Lista *l);
+bool insertLista(Lista *l);
 void removeListaItem(Lista *l);
 void removeRepet(Lista *l);
 void printLista(Lista *l);
+void printListaV(Lista *l);
 void preencheArquivo(FILE* arq);
 void atualizaArquivo(Lista *l,char nomearquvio[80]);
 #endif

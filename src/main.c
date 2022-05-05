@@ -37,6 +37,7 @@ int main(){
 			break;
 		case 4:
 			printLista(&l);
+			printListaV(&l);
 			break;
 		case 8:
 			printf("Atualizando arquivo...\n");
