@@ -38,6 +38,7 @@ void preencheLista(Lista *l,char arquivo[80],bool novo){
         l->cauda->prox=(Bloco*)malloc(sizeof(Bloco));
         l->cauda=l->cauda->prox;
         strcpy(aux.value,nome);
+        aux.cont=0;
         l->cauda->dado=aux;
         l->cauda->prox=NULL;
         fscanf(f,"%s ",nome);
@@ -54,7 +55,7 @@ void preencheArquivo(FILE* arq){
         if (nome[0]!='0')
             fputs(nome, arq);
     } while (nome[0]!='0');
-    fputs("-----------", arq);
+    fputs("---------", arq);
 }
 void insertLista(Lista *l){
     Item item;
@@ -64,6 +65,7 @@ void insertLista(Lista *l){
 	fgets(nome,100,stdin);
     nome[strlen(nome)-1]='\0';
     strcpy(item.value,nome);
+    item.cont=0;
     l->cauda->prox=(Bloco*)malloc(sizeof(Bloco));
     l->cauda=l->cauda->prox;
     l->cauda->dado=item;
@@ -120,7 +122,34 @@ void removeRepet(Lista *l){
         percorre=percorre->prox;
     }
 }
-
+void showRepet(Lista *l){
+    printf("oi\n");
+    Bloco *percorre, *remove,*aux;
+    percorre=l->cabeca;
+    aux=l->cabeca;
+    while (percorre->prox!=NULL){
+        if (percorre->prox->dado.cont!= -1)
+            percorre->prox->dado.cont+=1;
+        remove=percorre->prox;
+        while (remove->prox!=NULL&&percorre->prox->dado.cont!=-1)
+        {
+            if (strcmp(remove->prox->dado.value,percorre->prox->dado.value)==0){
+                percorre->prox->dado.cont+=1;
+                remove->prox->dado.cont= -1;
+            }
+            remove=remove->prox;
+        }
+        percorre=percorre->prox;
+    }
+    while (aux->prox!=NULL)
+    {
+        if (aux->prox->dado.cont>0)
+            printf("%s\t repetições: %d\n",aux->prox->dado.value,aux->prox->dado.cont);
+        aux->prox->dado.cont=0;
+        aux=aux->prox;
+    }
+    printf("\n");
+}
 void printLista(Lista *l){
     Bloco* aux;
     aux=l->cabeca;
@@ -140,6 +169,7 @@ void atualizaArquivo(Lista *l,char nomearquvio[80]){
     {
         strcat(aux->prox->dado.value,"\n");
         fputs(aux->prox->dado.value, f);
+        aux->prox->dado.value[strlen(aux->prox->dado.value)-1]='\0';
         aux=aux->prox;
     }
     fputs("---------", f);

@@ -38,6 +38,10 @@ int main(){
 		case 4:
 			printLista(&l);
 			break;
+		case 5:
+			printf("oi");
+			showRepet(&l);
+			break;
 		case 8:
 			printf("Atualizando arquivo...\n");
 			atualizaArquivo(&l,arquivo);
