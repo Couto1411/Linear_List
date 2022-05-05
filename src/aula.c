@@ -34,7 +34,8 @@ void preencheLista(Lista *l,char arquivo[80],bool novo){
 		f=fopen("ArquivoNomes.txt","r");
     }
     fscanf(f,"%s ",nome);
-    while(strcmp(nome,"---------") !=0){
+    int i=0;
+    while(strcmp(nome,"---------") !=0&&i<MAXTAM){
         l->cauda->prox=(Bloco*)malloc(sizeof(Bloco));
         l->cauda=l->cauda->prox;
         strcpy(aux.value,nome);
@@ -42,7 +43,10 @@ void preencheLista(Lista *l,char arquivo[80],bool novo){
         l->cauda->dado=aux;
         l->cauda->prox=NULL;
         fscanf(f,"%s ",nome);
+        i++;
     }
+    if (i>=MAXTAM)
+        printf("Arquivo e igual ou excedeu a quantidade maxima de 100 nomes, lista fica com os 100 primeiros\n");
     fclose(f);
 }
 void preencheArquivo(FILE* arq){

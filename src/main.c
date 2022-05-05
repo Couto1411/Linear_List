@@ -4,7 +4,6 @@ int main(){
 	Lista l;
 	char resposta, arquivo[80];
 	int opcao;
-	lenLista=0;
 	printf("Arquivo pronto? (S/N)");
 	scanf("%c", &resposta);
 	FLVazia(&l);
@@ -22,7 +21,7 @@ int main(){
 	}
 	do
 	{
-		printf("O que deseja fazer?\n\t1-Inserir nome\n\t2-Remover\n\t3-Remover iguais\n\t4-Printar lista\n\t8-Atualizar arquivo\n\t9-Sair (Arquivo atualizado)\n\t0-Sair (Não atualizar arquivo)\n");
+		printf("O que deseja fazer?\n\t1-Inserir nome\n\t2-Remover\n\t3-Remover iguais\n\t4-Printar lista\n\t5-Mostrar repetições\n\t8-Atualizar arquivo\n\t9-Sair (Arquivo atualizado)\n\t0-Sair (Não atualizar arquivo)\n");
 		scanf("%d",&opcao);
 		switch (opcao)
 		{
@@ -39,7 +38,6 @@ int main(){
 			printLista(&l);
 			break;
 		case 5:
-			printf("oi");
 			showRepet(&l);
 			break;
 		case 8:
