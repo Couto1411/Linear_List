@@ -25,6 +25,8 @@ typedef struct Lista{
     Bloco* cauda;
 }Lista;
 
+int tamanhoLista;
+
 void FLVazia(Lista *l);
 void preencheLista(Lista *l,char f[80], bool novo);
 void insertLista(Lista *l);

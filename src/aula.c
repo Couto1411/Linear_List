@@ -23,8 +23,7 @@ void preencheLista(Lista *l,char arquivo[80],bool novo){
 		fclose(f);
 		f=fopen("ArquivoNomes.txt","r");
     }
-    int i=0;
-    while(!feof (f)&&i<MAXTAM){
+    while(!feof (f)&&tamanhoLista<MAXTAM){
         fscanf(f,"%s ",nome);
         l->cauda->prox=(Bloco*)malloc(sizeof(Bloco));
         l->cauda=l->cauda->prox;
@@ -32,9 +31,9 @@ void preencheLista(Lista *l,char arquivo[80],bool novo){
         aux.cont=0;
         l->cauda->dado=aux;
         l->cauda->prox=NULL;
-        i++;
+        tamanhoLista++;
     }
-    if (i>=MAXTAM)
+    if (tamanhoLista>=MAXTAM)
         printf("Arquivo e igual ou excedeu a quantidade maxima de 100 nomes, lista fica com os 100 primeiros\n");
     fclose(f);
 }
@@ -52,16 +51,22 @@ void preencheArquivo(FILE* arq){
 void insertLista(Lista *l){
     Item item;
     char nome[100];
-    fgets(nome, 100, stdin);
-    printf("Qual nome deseja inserir no final? \n");
-	fgets(nome,100,stdin);
-    nome[strlen(nome)-1]='\0';
-    strcpy(item.value,nome);
-    item.cont=0;
-    l->cauda->prox=(Bloco*)malloc(sizeof(Bloco));
-    l->cauda=l->cauda->prox;
-    l->cauda->dado=item;
-    l->cauda->prox=NULL;
+    if (tamanhoLista<MAXTAM)
+    {
+        fgets(nome, 100, stdin);
+        printf("Qual nome deseja inserir no final? \n");
+        fgets(nome,100,stdin);
+        nome[strlen(nome)-1]='\0';
+        strcpy(item.value,nome);
+        item.cont=0;
+        l->cauda->prox=(Bloco*)malloc(sizeof(Bloco));
+        l->cauda=l->cauda->prox;
+        l->cauda->dado=item;
+        l->cauda->prox=NULL;
+        tamanhoLista++;
+    }
+    else
+        printf("Arquivo e igual ou excedeu a quantidade maxima de 100 nomes, lista fica com os 100 primeiros\n");
 }
 void removeListaItem(Lista *l){
     Bloco* aux, *freeBloco;
@@ -77,11 +82,13 @@ void removeListaItem(Lista *l){
                 free(aux->prox);
                 aux->prox=NULL;
                 l->cauda=aux;
+                tamanhoLista--;
             }
             else{
                 freeBloco=aux->prox;
                 aux->prox=aux->prox->prox;
                 free(freeBloco);
+                tamanhoLista--;
             }
         }
         else{
@@ -101,11 +108,13 @@ void removeRepet(Lista *l){
                     free(remove->prox);
                     remove->prox=NULL;
                     l->cauda=remove;
+                    tamanhoLista--;
                 }
                 else{
                     freeBloco=remove->prox;
                     remove->prox=remove->prox->prox;
                     free(freeBloco);
+                    tamanhoLista--;
                 }
             }
             else
@@ -115,21 +124,20 @@ void removeRepet(Lista *l){
     }
 }
 void showRepet(Lista *l){
-    printf("oi\n");
-    Bloco *percorre, *remove,*aux;
+    Bloco *percorre, *repet,*aux;
     percorre=l->cabeca;
     aux=l->cabeca;
     while (percorre->prox!=NULL){
         if (percorre->prox->dado.cont!= -1)
             percorre->prox->dado.cont+=1;
-        remove=percorre->prox;
-        while (remove->prox!=NULL&&percorre->prox->dado.cont!=-1)
+        repet=percorre->prox;
+        while (repet->prox!=NULL&&percorre->prox->dado.cont!=-1)
         {
-            if (strcmp(remove->prox->dado.value,percorre->prox->dado.value)==0){
+            if (strcmp(repet->prox->dado.value,percorre->prox->dado.value)==0){
                 percorre->prox->dado.cont+=1;
-                remove->prox->dado.cont= -1;
+                repet->prox->dado.cont= -1;
             }
-            remove=remove->prox;
+            repet=repet->prox;
         }
         percorre=percorre->prox;
     }
@@ -164,6 +172,5 @@ void atualizaArquivo(Lista *l,char nomearquvio[80]){
         aux->prox->dado.value[strlen(aux->prox->dado.value)-1]='\0';
         aux=aux->prox;
     }
-    fputs("---------", f);
     fclose(f);
 }
