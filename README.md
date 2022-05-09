@@ -1,4 +1,4 @@
-# MÁXIMA SOMA
+# NOMES REPETIDOS
 Crie uma lista linear que consiga armazenar um conjunto de 100 nomes quaisquer, os quais serão salvos de forma aleatória. Feito a estrutura crie as seguintes ações:   
 Uma função que consiga identificar replicações na lista, ou seja, nomes iguais. Removatodas as réplicas sem mover os ”ponteiro“;   
 Como você gerenciaria os espaços em branco para novas inserções? Qual seria o custo dessas novas inserções?
@@ -82,21 +82,32 @@ Após verificar se a leitura do arquivo é possível (caso inválido da exit)se 
     1. Sair do programa.
 
 Obs.:    
-- O arquivo deve ser dado na mesma maneira que o apresentado e deve conter apenas nomes de até 100 caracteres
+- O arquivo deve ser dado na mesma maneira que o apresentado e deve conter apenas nomes de até 100 caracteres;
+- Existe uma variável global *tamanhoLista* que contem o tamanho atual da lista, as funções *preencheLista(Lista *l,char f[80], bool novo)* e *insertLista(Lista *l)* adicionam ao tamanho e as funções *removeListaItem(Lista *l)* e *removeRepet(Lista *l)* retiram do tamanho. Essa variável é utilizada para ver se a lista tem tamanho menor que 100;
+- Testado para lista contendo no mínimo 1 elemento.
 # Exemplo de execução
-Arquivos:
+Arquivo de entrada:
 
 <p align="center">
-	<img src="imgs/numeros.jpg"/> 
-	<img src="imgs/Novos_Numeros.jpg"/> 
+	<img src="imgs/arquivodeentrada.jpg"/>
 </p> 
 
 Execução:
 <p align="center">
-	<img src="imgs/Exemplo_exec_1.jpg"/> 
+	<img src="imgs/Exemplo_execucao1.jpg"/> 
 </p>
 <p align="center">
-	<img src="imgs/Exemplo_exec_2.jpg"/> 
+	<img src="imgs/Exemplo_execucao2.jpg"/> 
+</p> 
+<p align="center">
+	<img src="imgs/Exemplo_execucao3.jpg"/> 
+</p> 
+<p align="center">
+	<img src="imgs/Exemplo_execucao4.jpg"/> 
+</p> 
+Arquivo de saída:
+<p align="center">
+	<img src="imgs/arquivosaid.jpg"/>
 </p> 
 
 # Compilação e Execução
