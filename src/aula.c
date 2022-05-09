@@ -16,16 +16,6 @@ void preencheLista(Lista *l,char arquivo[80],bool novo){
             printf("Erro ao abrir arquivo.\n");
             exit(1);
         }
-        fseek(f,0,SEEK_END);
-        fseek(f, -9, SEEK_CUR);
-        fscanf(f,"%s",nome);
-        if(strcmp(nome,"---------") !=0){
-            fclose(f);
-            f=fopen(arquivo,"a");
-            fputs("\n---------",f);
-        }
-        fclose(f);
-        f=fopen(arquivo,"r");
     }
     else{
         f= fopen("ArquivoNomes.txt","w");
@@ -33,16 +23,15 @@ void preencheLista(Lista *l,char arquivo[80],bool novo){
 		fclose(f);
 		f=fopen("ArquivoNomes.txt","r");
     }
-    fscanf(f,"%s ",nome);
     int i=0;
-    while(strcmp(nome,"---------") !=0&&i<MAXTAM){
+    while(!feof (f)&&i<MAXTAM){
+        fscanf(f,"%s ",nome);
         l->cauda->prox=(Bloco*)malloc(sizeof(Bloco));
         l->cauda=l->cauda->prox;
         strcpy(aux.value,nome);
         aux.cont=0;
         l->cauda->dado=aux;
         l->cauda->prox=NULL;
-        fscanf(f,"%s ",nome);
         i++;
     }
     if (i>=MAXTAM)
@@ -59,7 +48,6 @@ void preencheArquivo(FILE* arq){
         if (nome[0]!='0')
             fputs(nome, arq);
     } while (nome[0]!='0');
-    fputs("---------", arq);
 }
 void insertLista(Lista *l){
     Item item;
